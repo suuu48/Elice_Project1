@@ -25,6 +25,10 @@ const userSchema = new mongoose.Schema({
         type: Boolean,
         default: 1
     }
-});
+},
+{
+    collection: 'users',
+},
+);
 
 module.exports = userSchema;

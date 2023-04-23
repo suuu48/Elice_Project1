@@ -24,7 +24,6 @@ userRouter.post('/register', async (req, res, next) => {
     }
 });
 
-// 로그인 api (아래는 /singIn 이지만, 실제로는 /api/singIn 요청해야 함.)
 userRouter.post('/singIn', async function (req, res, next) {
     try {
         const { email, password } = req.body;
@@ -36,18 +35,22 @@ userRouter.post('/singIn', async function (req, res, next) {
     }
 });
 
-userRouter.get('/userlist', userMiddleware.loginRequired, async function (req, res, next) {
+// 특정 사용자 조회
+userRouter.get('/:userId', userMiddleware.loginRequired, async function (req, res, next) {
     try {
-        const users = await userService.getUsers();
+        const userId = req.params.userId;
+        const userInfoRequired = { userId };
 
-        res.status(200).json(users);
+        const user = await userService.getUser(userInfoRequired);
+
+        res.status(200).json(user);
     } catch (error) {
         next(error);
     }
 });
 
 // 사용자 정보 수정
-// (예를 들어 /api/users/abc12345 로 요청하면 req.params.userId는 'abc12345' 문자열로 됨)
+
 userRouter.patch(
     '/:userId',
     userMiddleware.loginRequired,
@@ -65,7 +68,7 @@ userRouter.patch(
             // body data로부터, 확인용으로 사용할 현재 비밀번호를 추출함.
             const currentPassword = req.body.currentPassword;
 
-            // currentPassword 없을 시, 진행 불가
+
             if (!currentPassword) {
                 throw new Error('정보를 변경하려면, 현재의 비밀번호가 필요합니다.');
             }
@@ -81,6 +84,7 @@ userRouter.patch(
                 ...(phone && { phone }),
                 // ...(roleType && { roleType }),
             };
+
 
             // 사용자 정보를 업데이트함.
             const updatedUserInfo = await userService.setUser(
@@ -106,7 +110,7 @@ userRouter.delete(
 
             const userInfoRequired = { userId };
 
-            // 사용자 정보를 업데이트함.
+            // 사용자 정보를 삭제함
             const deleteUserInfo = await userService.deleteUser(
                 userInfoRequired,
             );
