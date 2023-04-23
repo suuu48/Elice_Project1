@@ -2,30 +2,27 @@ const mongoose = require("mongoose");
 
 const orderSchema = new mongoose.Schema({
   orderId:{
-    type:Number,
-    required:true,
+    type: Number,
+    required: true,
   },
-
-  /* 추가기능으로 뺌
-  *  orderedBy:{
-  *  type:mongoose.Schema.Types.ObjectId,
-  *  ref:"User",
-  *  required:true,
-    },
-  */ 
   userEmail:{
-    type:String,
-    required:true,
+    type: String,
+    required: true,
   },
-  orderItems:{
-    type:{
-      productId: Number,
-      quantity: Number,
-      price: Number,
+  orderItems:[{
+    productId: {
+      type: Number,
+      required: true,
     },
-    required:true,
-
-  }, 
+    quantity: {
+      type: Number,
+      required: true,
+    },
+    price: {
+      type: Number,
+      required: true,
+    },
+  }],
   orderAddr:{
     type:String,
     required:true,
