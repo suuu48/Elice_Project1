@@ -24,7 +24,13 @@ class orderService {
 
   //특정 사용자의 주문조회
   async getOrdersByUser(userId) {
-    return await orderDAO.findByUserId(userId);
+    try {
+      const orders = await orderDAO.findByUserId(userId);
+      return orders;
+    } catch (error) {
+      console.log(error);
+      throw new AppError(commonErrors.BUSINESS_LOGIC_ERROR, '주문을 가져오는 도중 문제가 발생하였습니다', 500)
+    }
   }
 
   //주문수정

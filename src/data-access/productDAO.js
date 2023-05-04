@@ -20,7 +20,7 @@ class productDAO {
   async findByCategory(category) {
     try {
       const products = await Product.find({ category: category });
-      console.log(products);
+      console.log(products); // TODO: 불필요한 console.log는 삭제
       return products;
     } catch (error) {
       console.error(error);
@@ -52,7 +52,7 @@ class productDAO {
     try {
       const newProduct = new Product(product);
       const createdProduct = await newProduct.save();
-      return createdProduct;
+      return createdProduct.toObject; // TODO: toObject를 사용하여 POJO를 반환해주자
     } catch (error) {
       console.error(error);
       throw new AppError(

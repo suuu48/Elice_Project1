@@ -5,8 +5,16 @@ const { productMiddleware } = require('../middleware');
 const productRouter = express.Router();
 
 // 전체 상품 조회
+
+// /products?category=1
 productRouter.get('/', async (req, res, next) => {
   try {
+    if (req.query.category !== undefined) {
+      const products = await productService.getProductsByCategory(category);
+      res.json(products);
+      return;
+    }
+
     const products = await productService.getAllProducts();
     res.json(products);
   } catch (error) {
@@ -15,19 +23,20 @@ productRouter.get('/', async (req, res, next) => {
 });
 
 // 카테고리별 상품 목록 조회
-productRouter.get('/category', async (req, res, next) => {
-  try {
-    const { category } = req.query;
-    if (category === undefined && category === null && category === '') {
-      throw new Error('category 잘못 입력 되었습니다.');
-    }
+// TODO: 위의 상품 조회 코드랑 병합이 필요할 것 같습니다.
+// productRouter.get('/category', async (req, res, next) => {
+//   try {
+//     const { category } = req.query;
+//     if (category === undefined && category === null && category === '') {
+//       throw new Error('category 잘못 입력 되었습니다.');
+//     }
 
-    const products = await productService.getProductsByCategory(category);
-    res.json(products);
-  } catch (error) {
-    next(error);
-  }
-});
+//     const products = await productService.getProductsByCategory(category);
+//     res.json(products);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 // 상품 상세정보 조회
 productRouter.get('/:productId', async (req, res, next) => {

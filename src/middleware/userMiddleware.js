@@ -18,12 +18,12 @@ function loginRequired(req, res, next) {
   }
 
   try {
-    const secretKey = process.env.JWT_SECRET_KEY || 'secret-key';
+    const secretKey = process.env.JWT_SECRET_KEY ?? 'secret-key'; // TODO: JWT_SECRET_KEY가 없으면 에러를 던지는 것이 보안 관점에서 좋다. 현재 코드는 없어도 'secret-key'로 대체가 되기 때문에 개발자가 제대로된 시크릿 키를 환경 변수로 넣지 않았다는 것을 인지 못할 가능성이 있다.
     const jwtDecoded = jwt.verify(userToken, secretKey);
 
     const userId = jwtDecoded.userId;
 
-    req.currentUserId = userId;
+    req.currentUserId = userId; // TODO: 간혹 다른 서드파티 미들웨어들이 사용하는 key값이랑 겹치는 경우가 있어서 res.locals로 추천
 
     next();
   } catch (error) {

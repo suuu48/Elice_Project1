@@ -4,6 +4,8 @@ const { userMiddleware, orderMiddleware } = require('../middleware');
 
 const orderRouter = express.Router();
 
+// TODO: 전반적으로 API path들이 RESTful하지 않아서 수정이 필요합니다.
+
 // 주문 추가 api
 orderRouter.post(
   '/:userId',

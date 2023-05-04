@@ -84,7 +84,7 @@ class userService {
   }
 
   // 유저정보 수정, 현재 비밀번호가 있어야 수정 가능함.
-  async setUser(userId, toUpdate) {
+  async setUser(userId, toUpdate) { // TODO: set보다는 update가 조금 더 직관적인 이름일 것 같습니다.
     let user = await userDAO.findById(userId);
 
     // db에서 찾지 못한 경우, 에러 메시지 반환
@@ -94,6 +94,7 @@ class userService {
 
     // 정보 수정을 위해 사용자가 입력한 비밀번호가 올바른 값인지 확인해야 함
 
+    // TODO: 아래 과정은 꼭 필요할 것 같아요
     /*// 비밀번호 일치 여부 확인
     const correctPasswordHash = user.password;
     const isPasswordCorrect = await bcrypt.compare(
@@ -105,12 +106,13 @@ class userService {
       throw new Error(
         '현재 비밀번호가 일치하지 않습니다. 다시 한 번 확인해 주세요.'
       );
-    }
-  */
+    }*/
     // 업데이트 시작
 
     // 비밀번호도 변경하는 경우에는, 회원가입 때처럼 해쉬화 해주어야 함.
     const { password } = toUpdate;
+
+    // ""
 
     if (password) {
       const newPasswordHash = await bcrypt.hash(password, 10);

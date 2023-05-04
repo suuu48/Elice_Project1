@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const OrderJoiSchema = Joi.object({
+const OrderJoiSchema = Joi.object({ // TODO: 객체 이름은 카멜케이스로!
   userId: Joi.string().required(),
   orderItems: Joi.array()
     .items(
