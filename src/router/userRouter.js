@@ -36,6 +36,7 @@ userRouter.post('/signIn', async function (req, res, next) {
 });
 
 // 사용자  정보 조회
+// TODO: 본인에 대해서만 조회 가능하도록 해주면 좋을듯
 userRouter.get(
   '/:userId',
   userMiddleware.loginRequired,
@@ -53,7 +54,7 @@ userRouter.get(
 );
 
 // 사용자 정보 수정
-
+// TODO: 본인에 대해서만 수정 가능하도록 해주면 좋을듯
 userRouter.patch(
   '/:userId',
   userMiddleware.loginRequired,
@@ -99,6 +100,7 @@ userRouter.patch(
 );
 
 // 사용자 정보 삭제
+// TODO: 본인에 대해서만 삭제 가능하도록 해주면 좋을듯
 userRouter.delete(
   '/:userId',
   userMiddleware.loginRequired,
